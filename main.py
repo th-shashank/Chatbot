@@ -3,27 +3,45 @@ from colorama import Fore, Style, init
 
 init(autoreset = True)
 
-now = datetime.now()
+responses = {
+    "hi": "Hello! How can I help you?",
+    "hello": "Hey! Nice to meet you.",
+    "hey": "Hey there!",
+    "good morning": "Good morning! Have a great day.",
+    "your name": "I am SmartBot v1.0.",
+    "who are you": "I am a Python-based CLI chatbot.",
+    "how are you": "I'm doing well! Thanks for asking.",
+    "thank you": "You're welcome!",
+    "bye": "Goodbye! Have a great day."
+}
+
+def bot_get_reply(user_message):
+    # user_message = user_message.lower().strip()
+
+    now = datetime.now()
+
+    if user_message in responses:
+        return responses[user_message]
+    elif "time" in user_message or "kitne baje" in user_message:
+        return now.strftime("%H:%M:%S")
+    elif "date" in user_message or "tarikh" in user_message:
+        return now.strftime("%d-%m-%Y")
+    elif "day" in user_message:
+        return now.strftime("%A")
+    elif "year" in user_message:
+        return now.strftime("%Y")
+    else:
+        return "Sorry, I don't understand that yet. Type 'help'."
+
 def main():
-    responses={
-        "hi":"hello ",
-        "good morning":"good morning ",
-        "your name":"Bot v1",
-    } 
     while True:
-        user_massege = str(input(Fore.CYAN+Style.BRIGHT+"YOU :\t").lower().strip())
+        now = datetime.now()
 
-        if user_massege in ("exit","tata","clear"):
-            print("Bot: Bye ")
-            break
+        user_message = str(input(Fore.CYAN+Style.BRIGHT+"YOU :\t").lower().strip())
 
-        responses["date"]=now.strftime("%d :%m :%y")
-        responses["time"]=now.strftime("%H :%M :%S")
-        responses["day"]=now.strftime("%A")
-        responses["year"]=now.strftime("%Y")
+        bot_reply=bot_get_reply(user_message)
+        print(Fore.MAGENTA + Style.BRIGHT+ f"BOT: {bot_reply}".rjust(80))
 
-        bot_reply = responses.get(user_massege, "Sorry ,  i can't able to process try another massage ")
-        print(Fore.MAGENTA+Style.BRIGHT+f"bot: {bot_reply}".rjust(100))
 
 if __name__ == "__main__":
     try:
